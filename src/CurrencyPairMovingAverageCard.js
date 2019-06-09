@@ -1,5 +1,5 @@
 import React from 'react'
-import { getRandomInt, getMovingAverageChangeinPercentage, getCardColor } from "./utils"
+import { getRandomInt, currencyPairDisplayName, getMovingAverageChangeinPercentage, getCardColor } from "./utils"
 import numeral from "numeral"
 import { wsURL } from "./constants"
 
@@ -10,19 +10,20 @@ class CurrencyPairMovingAverageCard extends React.Component {
       selectedCurrencyPairName: '',
       oldValues: [],
       currentValue: 0,
-      showPickerDropDown: false
+      showPickerDropDown: false,
+      websocket: undefined
     }
     this.dropdownRef = React.createRef()
   }
 
   setupWebsocket = () => {
-    this.websocket = new WebSocket(wsURL)
+    const websocket = new WebSocket(wsURL)
 
-    this.websocket.onopen = () => {
+    websocket.onopen = () => {
       this.sendMessage(this.state.selectedCurrencyPairName)
     }
 
-    this.websocket.onmessage = (evt) => {
+    websocket.onmessage = (evt) => {
       // Convert string to number
       const currentValue = +evt.data
 
@@ -32,15 +33,17 @@ class CurrencyPairMovingAverageCard extends React.Component {
       }))
     }
 
-    this.websocket.onclose = () => {
+    websocket.onclose = () => {
       this.setupWebsocket()
     }
+
+    this.setState({ websocket })
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { currencyPairsList: prevCurrencyPairsList } = prevProps
     const { currencyPairsList } = this.props
-    const { selectedCurrencyPairName } = this.state
+    const { selectedCurrencyPairName, websocket } = this.state
 
     if (prevCurrencyPairsList.length !== currencyPairsList.length &&
       prevState.selectedCurrencyPairName === '') {
@@ -55,8 +58,9 @@ class CurrencyPairMovingAverageCard extends React.Component {
         oldValues: [],
         currentValue: 0
       })
-      if (this.websocket) {
-        this.websocket.close()
+
+      if (websocket) {
+        websocket.close()
       } else {
         this.setupWebsocket()
       }
@@ -64,13 +68,17 @@ class CurrencyPairMovingAverageCard extends React.Component {
   }
 
   componentWillUnmount() {
-    if (this.websocket) {
-      this.websocket.close()
+    const { websocket } = this.state
+
+    if (websocket) {
+      websocket.close()
     }
   }
 
   sendMessage = (currencyPair) => {
-    this.websocket.send(JSON.stringify({ currencyPair }))
+    const { websocket } = this.state
+
+    websocket.send(JSON.stringify({ currencyPair }))
   }
 
   toggleShowPickerDropdown = () => {
@@ -98,7 +106,7 @@ class CurrencyPairMovingAverageCard extends React.Component {
   }
 
   render() {
-    const { selectedCurrencyPairName, currentValue, oldValues, showPickerDropDown } = this.state
+    const { selectedCurrencyPairName, currentValue, oldValues, showPickerDropDown, websocket } = this.state
     const { currencyPairsList } = this.props
     let percentageChange = getMovingAverageChangeinPercentage(oldValues, currentValue)
     // debugger
@@ -107,15 +115,16 @@ class CurrencyPairMovingAverageCard extends React.Component {
     const currentValueDecimalStr = currentValueStr.substring(currentValueStr.indexOf('.') + 1)
     const currentValueDecimalSmallFontStr = currentValueDecimalStr.substring(0, 2)
     const currentValueDecimalBigFontStr = currentValueDecimalStr.substring(2)
-
     const percentageStr = numeral(percentageChange).format('0.00')
-    const currencyPairDisplayName = (currencyPairName) => `${currencyPairName.substring(0, 3)}/${currencyPairName.substring(3)}`
 
     return (
       <div
         className="currency-pair-card"
         style={{ backgroundColor: getCardColor(percentageChange) }}
       >
+        {(!websocket || websocket.readyState !== WebSocket.OPEN) &&
+          <div className="connecting-message">Connecting...</div>
+        }
         <div className="row1">
           <div className="currency-pair-picker">
             <div className="picker-button"
@@ -162,9 +171,9 @@ class CurrencyPairMovingAverageCard extends React.Component {
               No. Of Ticks
             </div>
             <div className="num-of-ticks-body">
-              <span>-</span>
-              <span>8</span>
-              <span>+</span>
+              <span className="ticks-controls">-</span>
+              <span className="ticks-value">8</span>
+              <span className="ticks-controls">+</span>
             </div>
           </div>
         </div>
