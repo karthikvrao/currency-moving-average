@@ -11,7 +11,8 @@ class CurrencyPairMovingAverageCard extends React.Component {
       oldValues: [],
       currentValue: 0,
       showPickerDropDown: false,
-      websocket: undefined
+      websocket: undefined,
+      selectedNumOfTicks: 0
     }
     this.dropdownRef = React.createRef()
   }
@@ -56,7 +57,8 @@ class CurrencyPairMovingAverageCard extends React.Component {
     if (prevState.selectedCurrencyPairName !== selectedCurrencyPairName) {
       this.setState({
         oldValues: [],
-        currentValue: 0
+        currentValue: 0,
+        selectedNumOfTicks: 0 
       })
 
       if (websocket) {
@@ -105,11 +107,35 @@ class CurrencyPairMovingAverageCard extends React.Component {
     this.toggleShowPickerDropdown()
   }
 
+  incrementTicks = () => {
+    const {selectedNumOfTicks, oldValues} = this.state
+
+    if (selectedNumOfTicks < oldValues.length + 1) {
+      this.setState(prevState => ({selectedNumOfTicks: prevState.selectedNumOfTicks + 1})) 
+    }
+  }
+
+  decrementTicks = () => {
+    const {selectedNumOfTicks} = this.state
+
+    if (selectedNumOfTicks > 1) {
+      this.setState(prevState => ({selectedNumOfTicks: prevState.selectedNumOfTicks - 1}))
+    }
+  }
+
   render() {
-    const { selectedCurrencyPairName, currentValue, oldValues, showPickerDropDown, websocket } = this.state
+    const { 
+      selectedCurrencyPairName,
+      currentValue,
+      oldValues,
+      showPickerDropDown,
+      websocket,
+      selectedNumOfTicks 
+    } = this.state
     const { currencyPairsList } = this.props
-    let percentageChange = getMovingAverageChangeinPercentage(oldValues, currentValue)
-    // debugger
+    const totalNumOfTicks = oldValues.length + 1
+    const numOfTicksToDisplay = selectedNumOfTicks > 0 ? selectedNumOfTicks : totalNumOfTicks
+    let percentageChange = getMovingAverageChangeinPercentage(oldValues, currentValue, numOfTicksToDisplay)
     const currentValueStr = numeral(currentValue).format('0.0000')
     const currentValueWholePartStr = currentValueStr.substring(0, currentValueStr.indexOf('.'))
     const currentValueDecimalStr = currentValueStr.substring(currentValueStr.indexOf('.') + 1)
@@ -171,9 +197,15 @@ class CurrencyPairMovingAverageCard extends React.Component {
               No. Of Ticks
             </div>
             <div className="num-of-ticks-body">
-              <span className="ticks-controls">-</span>
-              <span className="ticks-value">8</span>
-              <span className="ticks-controls">+</span>
+              <span
+              className="ticks-controls"
+              onClick={this.decrementTicks}
+              >-</span>
+              <span className="ticks-value">{numOfTicksToDisplay}</span>
+              <span
+              className="ticks-controls"
+              onClick={this.incrementTicks}
+              >+</span>
             </div>
           </div>
         </div>

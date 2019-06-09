@@ -14,12 +14,12 @@ export function getRandomInt(max) {
 
 export const currencyPairDisplayName = (currencyPairName) => `${currencyPairName.substring(0, 3)}/${currencyPairName.substring(3)}`
 
-export const getMovingAverageChangeinPercentage = (oldValues, currentValue) => {
+export const getMovingAverageChangeinPercentage = (oldValues, currentValue, numOfValues) => {
   const allValues = [...oldValues, currentValue]
   let percentageChange = 0
-  const numOfValues = allValues.length
+  
   if (numOfValues > 0) {
-    const sum = allValues.reduce((total, value) => total + value)
+    const sum = allValues.slice(-numOfValues).reduce((total, value) => total + value, 0)
     const movingAverage = sum / numOfValues
 
     if (movingAverage !== 0) {
