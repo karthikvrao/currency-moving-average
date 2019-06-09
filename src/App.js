@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import './App.css'
+import { getCurrencyPairs } from "./utils"
+import CurrencyPairMovingAverageCard from "./CurrencyPairMovingAverageCard"
+// import * as d3 from "d3"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      currencyPairs: []
+    }
+  }
+
+
+  componentDidMount() {
+    getCurrencyPairs().then(currencyPairs => this.setState({ currencyPairs }))
+  }
+
+  render() {
+    const { currencyPairs } = this.state
+
+    return (
+      <div className="App">
+        <CurrencyPairMovingAverageCard
+          currencyPairsList={currencyPairs}
+        />
+      </div>
+    )
+  }
 }
 
-export default App;
+export default App

@@ -1,33 +1,161 @@
-.App {
-  text-align: center;
+/* .App {
+  
+} */
+
+
+
+
+.line-chart path {
+    fill: none;
+    stroke: black;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+
+.line-chart--area path {
+    fill: cadetblue;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.line-chart--multiple .axis path,
+.line-chart--multiple .axis line {
+    fill: none;
+    stroke: black;
 }
 
-.App-link {
-  color: #61dafb;
+.line-chart--multiple .line {
+    fill: none;
+    stroke-width: 1.5px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+
+/* kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk */
+
+.currency-pair-card {
+    border: 1px solid black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.connecting-message {
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}
+
+.row1 {
+    align-items: flex-end;
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+}
+
+.row2 {
+    align-items: flex-end;
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+}
+
+.currency-pair-picker {
+    position: relative;
+}
+
+.percentage-change {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.current-value-container {
+    align-items: flex-end;
+    display: flex;
+}
+
+.current-value-big {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.current-value-small {
+    font-size: 20px;
+}
+
+.num-of-ticks-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.num-of-ticks-header {
+    font-size: 10px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.num-of-ticks-body {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.ticks-value {
+    border-bottom: 1px solid white;
+}
+
+.ticks-controls {
+    cursor: pointer;
+    padding: 8px;
+}
+
+.graph {
+    height: 80px;
+}
+
+.picker-button {
+    align-items: flex-end;
+    background-color: transparent;
+    border-bottom: 1px solid white;
+    cursor: pointer;
+    display: flex;
+    font-size: 20px;
+    justify-content: space-between;
+    padding: 8px;
+}
+
+.caret {
+    border: 6px solid transparent;
+    border-color: white transparent transparent transparent;
+    margin-left: 8px;
+}
+
+.picker-drop-down {
+    background-color: white;
+    border-radius: 2px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    top: 0;
+}
+
+.picker-drop-down li {
+    color: black;
+    cursor: pointer;
+    font-size: 20px;
+    width: 100px;
+    padding: 8px;
+}
+
+.picker-drop-down li:hover {
+    background-color: #F0F0F0;
+}
+
+.selected {
+    background-color: #F0F0F0;
 }
