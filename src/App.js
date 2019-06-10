@@ -22,9 +22,22 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <CurrencyPairMovingAverageCard
-          currencyPairsList={currencyPairs}
-        />
+        <div className="App-row">
+          <CurrencyPairMovingAverageCard
+            currencyPairsList={currencyPairs}
+          />
+          <CurrencyPairMovingAverageCard
+            currencyPairsList={currencyPairs}
+          />
+        </div>
+        <div className="App-row">
+          <CurrencyPairMovingAverageCard
+            currencyPairsList={currencyPairs}
+          />
+          <CurrencyPairMovingAverageCard
+            currencyPairsList={currencyPairs}
+          />
+        </div>
       </div>
     )
   }

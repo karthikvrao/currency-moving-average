@@ -1,40 +1,20 @@
-/* .App {
-  
-} */
-
-
-
-
-.line-chart path {
-    fill: none;
-    stroke: black;
-}
-
-
-.line-chart--area path {
-    fill: cadetblue;
-}
-
-.line-chart--multiple .axis path,
-.line-chart--multiple .axis line {
-    fill: none;
-    stroke: black;
-}
-
-.line-chart--multiple .line {
-    fill: none;
-    stroke-width: 1.5px;
-}
-
-
-
-/* kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk */
-
-.currency-pair-card {
-    border: 1px solid black;
-    color: white;
+.App {
     display: flex;
     flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.App-row {
+    display: flex;
+}
+
+.currency-pair-card {
+    color: white;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    margin: 16px;
     position: relative;
 }
 
@@ -113,7 +93,10 @@
 }
 
 .graph {
+    align-items: center;
+    display: flex;
     height: 80px;
+    justify-content: center;
 }
 
 .picker-button {

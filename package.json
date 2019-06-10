@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "d3": "^5.9.2",
-    "lodash": "^4.17.11",
+    "lodash.range": "^3.2.0",
     "numeral": "^2.0.6",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

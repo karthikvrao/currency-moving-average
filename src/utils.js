@@ -1,4 +1,4 @@
-import _ from "lodash"
+import range from "lodash.range"
 import { baseColorValue, percentageRangeStart, percentageRangeEnd, percentageChangeStepSize } from "./constants"
 
 export const getCurrencyPairs = async () => {
@@ -17,7 +17,7 @@ export const currencyPairDisplayName = (currencyPairName) => `${currencyPairName
 export const getMovingAverageChangeinPercentage = (oldValues, currentValue, numOfValues) => {
   const allValues = [...oldValues, currentValue]
   let percentageChange = 0
-  
+
   if (numOfValues > 0) {
     const sum = allValues.slice(-numOfValues).reduce((total, value) => total + value, 0)
     const movingAverage = sum / numOfValues
@@ -31,7 +31,7 @@ export const getMovingAverageChangeinPercentage = (oldValues, currentValue, numO
 }
 
 export const getCardColor = (percentageChange) => {
-  const steps = _.range(percentageRangeStart, percentageRangeEnd, percentageChangeStepSize)
+  const steps = range(percentageRangeStart, percentageRangeEnd, percentageChangeStepSize)
 
   const colorCssAttr = ({redValue = 0, greenValue = 0}) => `rgb(${redValue}, ${greenValue}, 0)`
   const percentageGreaterThan = steps.reduce(
